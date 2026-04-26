@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@theme {
+  --color-customBlack: #000000;
+  --color-customBrown: #987654;
+  --color-paperInfo: #f2eadb;
+  --color-badgeOrange: #cc4a14;
+  --font-serif: "DM Serif Display", serif;
+  --font-sans: "Space Grotesk", sans-serif;
+  --font-blackletter: "Chomsky", "Old English Text MT", cursive;
+}
