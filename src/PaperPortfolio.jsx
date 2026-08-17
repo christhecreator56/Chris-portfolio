@@ -65,6 +65,42 @@ const projectPanels = [
     img: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=1000&auto=format&fit=crop",
     showMedia: false,
   },
+  {
+    title: "ECHOFILTER",
+    badge: "NEXT.JS",
+    year: "2026",
+    tag: "AI TRANSCRIPT ENGINE",
+    tagline: "Ranks YouTube dev tutorials by how much they actually teach you.",
+    desc: "A Chrome extension + Next.js backend that reads the transcript of every video on a YouTube search page and scores it for real technical substance — so clickbait and sponsor filler get flagged before you waste 20 minutes on them.",
+    highlights: [
+      "Two-stage pipeline: cheap vector filtering first, expensive LLM grading only on the top 2 chunks — cuts token spend by ~10× per video",
+      "Embeddings run in-process on CPU via MiniLM-L6-v2 / ONNX — zero per-request inference bill",
+      "Redis → Postgres cache cascade with query-normalised cache keys",
+      "Exponential-backoff retry on Groq 429s + graceful similarity-only fallback when no API key is configured",
+      "Manifest V3 content script survives YouTube SPA navigation and infinite scroll via MutationObserver",
+    ],
+    stack: "Next.js 16 · React 19 · TypeScript · Tailwind v4 · Chrome Extension (MV3) · Groq (Llama 3.1) · Transformers.js · Supabase · Upstash Redis",
+    img: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1000&auto=format&fit=crop",
+    showMedia: false,
+  },
+  {
+    title: "CIP",
+    badge: "REACT",
+    year: "2026",
+    tag: "CLUB SITE + CMS",
+    tagline: "A cinematic club site with a hand-rolled admin panel behind it.",
+    desc: "A motion-heavy React site for the Centre of Image Processing, with a custom Supabase-backed admin console so non-technical club members can update projects, events, and reports without touching code — and a site that still renders perfectly if the backend goes down.",
+    highlights: [
+      "Graceful-degradation data layer: reads never throw and fall back to bundled content; writes throw loudly so the admin knows a save failed",
+      "RLS policies with a SECURITY DEFINER helper pinned to a fixed search_path to prevent shadowed-table hijacking",
+      "Idempotent schema — the whole SQL file can be re-run safely",
+      "Admin console with image upload to Supabase Storage covering projects, events, newsletter reports, and form submissions",
+      "Deterministic seeded QR generation driving a three-layer masked page transition",
+    ],
+    stack: "React 19 · Vite · Tailwind v4 · GSAP · Framer Motion · Lenis · Supabase (Postgres + Auth + Storage + RLS) · React Router",
+    img: "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?q=80&w=1000&auto=format&fit=crop",
+    siteUrl: "https://centreofimageprocessingwebsite.vercel.app/",
+  },
 ];
 
 const noiseBg = {
@@ -414,10 +450,26 @@ export default function PaperPortfolio() {
             <div className={`panel-content overflow-hidden transition-all duration-[800ms] ease-[cubic-bezier(0.77,0,0.175,1)] flex flex-col shrink-0 relative bg-paperInfo cursor-default ${openPanel === idx ? "w-[85vw] md:w-[45vw] border-r opacity-100 editorial-border" : "w-0 border-r-0 opacity-0"}`}>
               <div className="absolute inset-0 opacity-[0.25] pointer-events-none" style={noiseBg} />
               <div className="w-[85vw] md:w-[45vw] h-full flex flex-col shrink-0 relative z-10">
-                <div className="p-8 flex-1 flex flex-col items-center justify-center">
-                  <span className="bg-customBlack text-paperInfo px-2 py-0.5 text-[0.65rem] font-bold tracking-[0.2em] uppercase mb-8">{project.tag}</span>
-                  <h2 className="text-7xl md:text-[7rem] font-serif text-customBlack mb-6 text-center leading-none tracking-tighter" style={{ transform: "scaleY(1.3)" }}>{project.title}</h2>
-                  <p className="font-serif text-xl md:text-2xl text-center max-w-sm text-customBlack leading-snug">{project.desc}</p>
+                <div className="p-6 md:p-8 flex-1 flex flex-col items-start justify-center overflow-y-auto">
+                  <span className="bg-customBlack text-paperInfo px-2 py-0.5 text-[0.65rem] font-bold tracking-[0.2em] uppercase mb-5">{project.tag}</span>
+                  <h2 className="text-5xl md:text-[5.5rem] font-serif text-customBlack mb-2 text-left leading-none tracking-tighter" style={{ transform: "scaleY(1.3)" }}>{project.title}</h2>
+                  {project.tagline && (
+                    <p className="font-sans text-xs md:text-sm uppercase tracking-[0.15em] text-customBrown mb-5 mt-3">{project.tagline}</p>
+                  )}
+                  <p className="font-serif text-base md:text-lg text-left max-w-lg text-customBlack leading-snug mb-5">{project.desc}</p>
+                  {project.highlights && (
+                    <ul className="w-full max-w-lg mb-5 space-y-2">
+                      {project.highlights.map((h, i) => (
+                        <li key={i} className="flex items-start gap-2 font-serif text-sm md:text-base text-customBlack leading-snug">
+                          <span className="mt-[0.35em] shrink-0 w-1.5 h-1.5 rounded-full bg-customBrown" />
+                          <span>{h}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {project.stack && (
+                    <p className="font-sans text-[0.6rem] md:text-[0.65rem] uppercase tracking-[0.15em] text-customBlack/60 leading-relaxed max-w-lg">{project.stack}</p>
+                  )}
                 </div>
                 {project.showMedia !== false && (
                   <div className="w-full h-[55%] border-t editorial-border overflow-hidden bg-black flex items-center justify-center">
